@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <crypt.h>
-
+#include <mpi.h>
 
 char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
 
@@ -38,7 +38,7 @@ void func2(char salt[]) {
 		for (temp1 = 0; temp1 < 64; ++temp1){
 			palavra[0] = vetor[temp1];
 			palavra[1] = vetor[temp2];
-			printf("%s\n", palavra);
+			//printf("%s\n", palavra);
 			result = crypt(palavra, "Fk");
 			ok = strcmp (result, salt) == 0;
 			if (ok) {
@@ -69,17 +69,37 @@ void func3() {
 	}*/
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
+	int rank,size,i;
+	int tag=0;
+	MPI_Status status;
+	char msg[20];
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	
-	//char salt[15] = "Fk9Rzlrnj.fqg"; //q
-	char salt[15] = "Fk99B8qn1jmV2"; //qq
+	
+	char salt[15] = "Fk9Rzlrnj.fqg"; //q
+	//char salt[15] = "Fk99B8qn1jmV2"; //qq
+	char salt2[15] = "FkCiSusvoHLpY"; //ww
 	//char salt[15] = "FksK2de5SVsUM"; //qqq
 	//char salt[15] = "FkLwp/xodTQRE"; //qqqq
 	//char salt[15] = "Fk/lj89JcV0Ic"; //qqqqq
+	if(rank == 0) {
+		
+	} else {
+		if (rank == 1) {
+			func1(salt);
+			func2(salt);
+		}
+		if (rank == 2) {
+			func1(salt2);
+			func2(salt2);
+		}
+		
+	}
 	
-	func1(salt);
-	func2(salt);
-
+	MPI_Finalize();
 	return 0;
 }
