@@ -6,6 +6,34 @@
 #include <mpi.h>
 
 char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
+/*char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
+char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
+char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
+
+0 32 - 32 62
+
+
+0 1  - 0 1
+
+
+0 32 - 32 62
+
+1 2 - 1 2
+
+
+0 32 32 62
+
+2 3 2 3
+
+
+62 63 62 63 62 63
+
+0 4 4 8	8 12
+
+63 64 
+
+0 4 4 8	8 12*/
+
 
 void func1(char **chave, int qtdpalavras,int inicial, int final) {
 	char *result;
@@ -94,7 +122,7 @@ void func3(char **chave, int qtdpalavras,int inicial, int final) {
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func4(char **chave, int qtdpalavras,int inicial, int final) {
+void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, int final2) {
 	printf("func4: inicial %d final %d\n",inicial,final);
 
 	char *result;
@@ -105,7 +133,7 @@ void func4(char **chave, int qtdpalavras,int inicial, int final) {
 	char palavra[10] = "\0\0\0\0\0\0\0\0\0\0";
 
 	for (temp4 = 0; temp4 < 64; ++temp4){
-			for (temp3 = 0; temp3 < 64; ++temp3){
+			for (temp3 = inicial2; temp3 < final2; ++temp3){
 				for (temp2 = 0; temp2 < 64; ++temp2){
 					for (temp1 = inicial; temp1 < final; ++temp1){
 						palavra[0] = vetor[temp1];
@@ -423,24 +451,16 @@ int main(int argc, char **argv)
 
 	while (scanf("%s",chaveAux) == 1) {
 		strcpy(chaves[i],chaveAux);
-		//printf("%s\n", chaves[i]);
 		i++;
 	}
 	qtdpalavras = i;
-
-
-
-
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
 	if(rank == 0) {
 		printf("Iniciou\n");
-
-
 		MPI_Bcast( &qtdpalavras, 1, MPI_INT, 0, MPI_COMM_WORLD);
 		for(i = 0;i<qtdpalavras;i++)
 			MPI_Bcast( chaves[i], (sizeof(char)*13), MPI_CHAR, 0, MPI_COMM_WORLD);
@@ -449,10 +469,7 @@ int main(int argc, char **argv)
 		func3(chaves,qtdpalavras,0,64);
 
 	} else {
-
-
 		MPI_Bcast( &qtdpalavras, 1, MPI_INT, 0, MPI_COMM_WORLD);
-
 
 		for(i = 0;i<qtdpalavras;i++){
 			MPI_Bcast( chaves[i], (sizeof(char)*13), MPI_CHAR, 0, MPI_COMM_WORLD);
@@ -469,14 +486,50 @@ int main(int argc, char **argv)
 		int escravo_inicial = 1;
 		int escravo_final = escravos_por_funcao;
 
-		if (rank == 1) {
+		for(i = 1;i<=160;i++){
 
-			func4(chaves,qtdpalavras,0,32);
+			if (rank == i && i <= 64) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,0,32);
+				}
+			}
+
+			if (rank == i && (i > 64) && (i <= 128) ) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,32,62);
+				}
+			}
+
+			if (rank == i && (i > 128) && (i <= 160)) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,62,64);
+				}
+			}
+			k++;
 		}
 
-		if (rank == 2) {
-			func4(chaves,qtdpalavras,32,64);
-		}
+		/*for(i = 1;i<=160;i++){
+
+			if (rank == i && i <= 64) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,0,32);
+				}
+			}
+
+			if (rank == i && (i > 64) && (i <= 128) ) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,32,62);
+				}
+			}
+
+			if (rank == i && (i > 128) && (i <= 160)) {
+				for(k = 0;k<63;k++){
+					func4(chaves,qtdpalavras,k,k+1,62,64);
+				}
+			}
+			k++;
+		}*/
+		
 
 		/*if(rank >= 1 && rank <= 3){
 			for(i=1;i<=3;i++){
@@ -508,14 +561,8 @@ int main(int argc, char **argv)
 	
 			
 			
-			/*if (rank == 1) {
-				
-				func5(chaves,qtdpalavras,0,16);
-				
-				printf("TERMINOU 1 \n");
-			}*/
 	}
-	
+	printf("TERMINOU 1 \n");
 	MPI_Finalize();
 	return 0;
 }
