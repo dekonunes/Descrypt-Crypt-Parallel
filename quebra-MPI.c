@@ -122,8 +122,8 @@ void func3(char **chave, int qtdpalavras,int inicial, int final) {
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, int final2) {
-	printf("func4: inicial %d final %d\n",inicial,final);
+void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, int final2, int rank) {
+	//printf("func4 INICIO em %d: inicial %d final %d inicial2 %d final2 %d\n",rank, inicial,final, inicial2, final2);
 
 	char *result;
 	int ok,i;
@@ -133,9 +133,9 @@ void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, in
 	char palavra[10] = "\0\0\0\0\0\0\0\0\0\0";
 
 	for (temp4 = 0; temp4 < 64; ++temp4){
-			for (temp3 = inicial2; temp3 < final2; ++temp3){
+			for (temp3 = inicial2; temp3 <= final2; ++temp3){
 				for (temp2 = 0; temp2 < 64; ++temp2){
-					for (temp1 = inicial; temp1 < final; ++temp1){
+					for (temp1 = inicial; temp1 <= final; ++temp1){
 						palavra[0] = vetor[temp1];
 						palavra[1] = vetor[temp2];
 						palavra[2] = vetor[temp3];
@@ -156,8 +156,7 @@ void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, in
 				}
 			}
 		}
-	
-
+		//printf("func4 FIM em %d: inicial %d final %d inicial2 %d final2 %d\n",rank, inicial,final, inicial2, final2);
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
@@ -437,7 +436,7 @@ void func10(char **chave, int qtdpalavras,int inicial, int final) {
 int main(int argc, char **argv)
 {
 	
-	int i = 0,j;
+	int i = 0,j,k;
 	int rank, size;
 	
 	int qtdpalavras = 31;
@@ -475,37 +474,20 @@ int main(int argc, char **argv)
 			MPI_Bcast( chaves[i], (sizeof(char)*13), MPI_CHAR, 0, MPI_COMM_WORLD);
 		}
 
-		int escravos = size; //170
-		int funcoes = 2; //6
-		int escravos_por_funcao = escravos / funcoes; // 170/8 = 21.25 -> 22
 
-		int qtd_combinacoes_por_func = 64 / escravos_por_funcao; // 64/22 = 2.9 -> 3
+		for(i = 1;i<=54;i++){
 
-		int passos = 64/size;
-
-		int escravo_inicial = 1;
-		int escravo_final = escravos_por_funcao;
-
-		for(i = 1;i<=160;i++){
-
-			if (rank == i && i <= 64) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,0,32);
-				}
+			if (rank == i && i <= 18) {
+				func4(chaves,qtdpalavras,rank-1,rank,0,32,i);
 			}
 
-			if (rank == i && (i > 64) && (i <= 128) ) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,32,62);
-				}
+			if (rank == i && (i > 18) && (i <= 36) ) {
+					func4(chaves,qtdpalavras,(rank-19),(rank-18),33,62,i);
 			}
 
-			if (rank == i && (i > 128) && (i <= 160)) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,62,64);
-				}
+			if (rank == i && (i > 36) && (i <= 54)) {
+					func4(chaves,qtdpalavras,(rank-37),(rank-36),63,64,i);
 			}
-			k++;
 		}
 
 		/*for(i = 1;i<=160;i++){
@@ -562,7 +544,7 @@ int main(int argc, char **argv)
 			
 			
 	}
-	printf("TERMINOU 1 \n");
+	//printf("TERMINOU 1 \n");
 	MPI_Finalize();
 	return 0;
 }
