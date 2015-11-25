@@ -6,34 +6,6 @@
 #include <mpi.h>
 
 char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
-/*char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
-char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
-char vetor[66] = "./1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"; //64
-
-0 32 - 32 62
-
-
-0 1  - 0 1
-
-
-0 32 - 32 62
-
-1 2 - 1 2
-
-
-0 32 32 62
-
-2 3 2 3
-
-
-62 63 62 63 62 63
-
-0 4 4 8	8 12
-
-63 64 
-
-0 4 4 8	8 12*/
-
 
 void func1(char **chave, int qtdpalavras,int inicial, int final) {
 	char *result;
@@ -122,20 +94,21 @@ void func3(char **chave, int qtdpalavras,int inicial, int final) {
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, int final2, int rank) {
-	//printf("func4 INICIO em %d: inicial %d final %d inicial2 %d final2 %d\n",rank, inicial,final, inicial2, final2);
+void func4(char **chave, int qtdpalavras,int inicial, int final, int inicial2, int final2, int rank) {
+	//printf("func4",rank, inicial,final, inicial2, final2);
 
 	char *result;
 	int ok,i;
 	char salt[3] = "\0\0\0";
 	
 	int temp1,temp2,temp3,temp4;
-	char palavra[10] = "\0\0\0\0\0\0\0\0\0\0";
+	char palavra[10] = "....\0\0\0\0\0\0";
 
 	for (temp4 = 0; temp4 < 64; ++temp4){
 			for (temp3 = inicial2; temp3 <= final2; ++temp3){
 				for (temp2 = 0; temp2 < 64; ++temp2){
-					for (temp1 = inicial; temp1 <= final; ++temp1){
+					for (temp1 = inicial; temp1 < final; ++temp1){
+
 						palavra[0] = vetor[temp1];
 						palavra[1] = vetor[temp2];
 						palavra[2] = vetor[temp3];
@@ -160,7 +133,8 @@ void func4(char **chave, int qtdpalavras,int inicial, int final,int inicial2, in
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func5(char **chave, int qtdpalavras,int inicial, int final) {
+void func5(char **chave, int qtdpalavras,int inicial, int final, int inicial2, int final2, int rank) {
+	//printf("Iniciou com 5\n");
 	char *result;
 	int ok,i;
 	char salt[3] = "\0\0\0";
@@ -170,7 +144,7 @@ void func5(char **chave, int qtdpalavras,int inicial, int final) {
 
 	for (temp5 = 0; temp5 < 64; ++temp5){
 	 	for (temp4 = 0; temp4 < 64; ++temp4){
-			for (temp3 = 0; temp3 < 64; ++temp3){
+			for (temp3 = inicial2; temp3 < final2; ++temp3){
 				for (temp2 = 0; temp2 < 64; ++temp2){
 					for (temp1 = inicial; temp1 < final; ++temp1){
 						palavra[0] = vetor[temp1];
@@ -195,10 +169,11 @@ void func5(char **chave, int qtdpalavras,int inicial, int final) {
 			}
 		}
 	}
+	//printf("fim de 5");
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func6(char **chave, int qtdpalavras,int inicial, int final) {
+void func6(char **chave, int qtdpalavras,int inicial, int final, int inicial2, int final2, int rank) {
 	char *result;
 	int ok,i;
 	char salt[3] = "\0\0\0";
@@ -209,7 +184,7 @@ void func6(char **chave, int qtdpalavras,int inicial, int final) {
 	for (temp6 = 0; temp6 < 64; ++temp6){
 		for (temp5 = 0; temp5 < 64; ++temp5){
 		 	for (temp4 = 0; temp4 < 64; ++temp4){
-				for (temp3 = 0; temp3 < 64; ++temp3){
+				for (temp3 = inicial2; temp3 < final2; ++temp3){
 					for (temp2 = 0; temp2 < 64; ++temp2){
 						for (temp1 = inicial; temp1 < final; ++temp1){
 							palavra[0] = vetor[temp1];
@@ -239,7 +214,7 @@ void func6(char **chave, int qtdpalavras,int inicial, int final) {
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func7(char **chave, int qtdpalavras,int inicial, int final) {
+void func7(char **chave, int qtdpalavras,int inicial, int final, int inicial2, int final2, int rank) {
 	char *result;
 	int ok,i;
 	char salt[3] = "\0\0\0";
@@ -251,7 +226,7 @@ void func7(char **chave, int qtdpalavras,int inicial, int final) {
 		for (temp6 = 0; temp6 < 64; ++temp6){
 			for (temp5 = 0; temp5 < 64; ++temp5){
 			 	for (temp4 = 0; temp4 < 64; ++temp4){
-					for (temp3 = 0; temp3 < 64; ++temp3){
+					for (temp3 = inicial2; temp3 < final2; ++temp3){
 						for (temp2 = 0; temp2 < 64; ++temp2){
 							for (temp1 = inicial; temp1 < final; ++temp1){
 								palavra[0] = vetor[temp1];
@@ -283,7 +258,7 @@ void func7(char **chave, int qtdpalavras,int inicial, int final) {
 	//TODO comunicar que terminou e pedir mais trabalho
 }
 
-void func8(char **chave, int qtdpalavras,int inicial, int final) {
+void func8(char **chave, int qtdpalavras,int inicial, int final, int inicial2, int final2, int rank) {
 	char *result;
 	int ok,i;
 	char salt[3] = "\0\0\0";
@@ -296,7 +271,7 @@ void func8(char **chave, int qtdpalavras,int inicial, int final) {
 			for (temp6 = 0; temp6 < 64; ++temp6){
 				for (temp5 = 0; temp5 < 64; ++temp5){
 				 	for (temp4 = 0; temp4 < 64; ++temp4){
-						for (temp3 = 0; temp3 < 64; ++temp3){
+						for (temp3 = inicial2; temp3 < final2; ++temp3){
 							for (temp2 = 0; temp2 < 64; ++temp2){
 								for (temp1 = inicial; temp1 < final; ++temp1){
 									palavra[0] = vetor[temp1];
@@ -436,10 +411,10 @@ void func10(char **chave, int qtdpalavras,int inicial, int final) {
 int main(int argc, char **argv)
 {
 	
-	int i = 0,j,k;
+	int i = 0;
 	int rank, size;
 	
-	int qtdpalavras = 31;
+	int qtdpalavras = 99999;
 	char **chaves =  malloc((sizeof(char*)*13)*qtdpalavras);
 	for(i = 0; i< qtdpalavras; i++)
 		chaves[i] = malloc(sizeof(char) * 13);
@@ -459,7 +434,6 @@ int main(int argc, char **argv)
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
 	if(rank == 0) {
-		printf("Iniciou\n");
 		MPI_Bcast( &qtdpalavras, 1, MPI_INT, 0, MPI_COMM_WORLD);
 		for(i = 0;i<qtdpalavras;i++)
 			MPI_Bcast( chaves[i], (sizeof(char)*13), MPI_CHAR, 0, MPI_COMM_WORLD);
@@ -473,78 +447,179 @@ int main(int argc, char **argv)
 		for(i = 0;i<qtdpalavras;i++){
 			MPI_Bcast( chaves[i], (sizeof(char)*13), MPI_CHAR, 0, MPI_COMM_WORLD);
 		}
+		for(i = 1;i<=174;i++){
 
+		if (rank == i && i <= 32) {
+			func4(chaves,qtdpalavras,rank-1,rank,0,12,i);
+			func4(chaves,qtdpalavras,rank-1+32,rank+32,0,12,i);
 
-		for(i = 1;i<=54;i++){
+			
+			
+			
 
-			if (rank == i && i <= 18) {
-				func4(chaves,qtdpalavras,rank-1,rank,0,32,i);
+			/*if(rank == i && rank == 1){
+				func4(chaves,qtdpalavras,24,25,52,63,i);
+				func4(chaves,qtdpalavras,24+32,25+32,52,63,i);
 			}
-
-			if (rank == i && (i > 18) && (i <= 36) ) {
-					func4(chaves,qtdpalavras,(rank-19),(rank-18),33,62,i);
+			if(rank == i && rank == 8){
+				func4(chaves,qtdpalavras,25,26,52,63,i);
+				func4(chaves,qtdpalavras,25+32,26+32,52,63,i);
 			}
-
-			if (rank == i && (i > 36) && (i <= 54)) {
-					func4(chaves,qtdpalavras,(rank-37),(rank-36),63,64,i);
+			if(rank == i && rank == 2){
+				func4(chaves,qtdpalavras,26,27,52,63,i);
+				func4(chaves,qtdpalavras,26+32,27+32,52,63,i);
 			}
+			if(rank == i && rank == 3){
+				func4(chaves,qtdpalavras,27,28,52,63,i);
+				func4(chaves,qtdpalavras,27+32,28+32,52,63,i);
+			}
+			if(rank == i && rank == 4){
+				func4(chaves,qtdpalavras,28,29,52,63,i);
+				func4(chaves,qtdpalavras,28+32,29+32,52,63,i);
+			}
+			if(rank == i && rank == 5){
+				func4(chaves,qtdpalavras,29,30,52,63,i);
+				func4(chaves,qtdpalavras,29+32,30+32,52,63,i);
+			}
+			if(rank == i && rank == 6){
+				func4(chaves,qtdpalavras,30,31,52,63,i);
+				func4(chaves,qtdpalavras,30+32,31+32,52,63,i);
+			}
+			if(rank == i && rank == 7){
+				func4(chaves,qtdpalavras,31,32,52,63,i);
+				func4(chaves,qtdpalavras,31+32,32+32,52,63,i);
+			}
+	*/
+			func5(chaves,qtdpalavras,rank-1,rank,0,12,i);
+			func5(chaves,qtdpalavras,rank-1+32,rank+32,0,12,i);
+			/*
+			if(rank == i && rank == 9){
+				func5(chaves,qtdpalavras,24,25,52,63,i);
+				func5(chaves,qtdpalavras,24+32,25+32,52,63,i);
+			}
+			if(rank == i && rank == 10){
+				func5(chaves,qtdpalavras,25,26,52,63,i);
+				func5(chaves,qtdpalavras,25+32,26+32,52,63,i);
+			}
+			if(rank == i && rank == 11){
+				func5(chaves,qtdpalavras,26,27,52,63,i);
+				func5(chaves,qtdpalavras,26+32,27+32,52,63,i);
+			}
+			if(rank == i && rank == 12){
+				func5(chaves,qtdpalavras,27,28,52,63,i);
+				func5(chaves,qtdpalavras,27+32,28+32,52,63,i);
+			}
+			if(rank == i && rank == 13){
+				func5(chaves,qtdpalavras,28,29,52,63,i);
+				func5(chaves,qtdpalavras,28+32,29+32,52,63,i);
+			}
+			if(rank == i && rank == 14){
+				func5(chaves,qtdpalavras,29,30,52,63,i);
+				func5(chaves,qtdpalavras,29+32,30+32,52,63,i);
+			}
+			if(rank == i && rank == 15){
+				func5(chaves,qtdpalavras,30,31,52,63,i);
+				func5(chaves,qtdpalavras,30+32,31+32,52,63,i);
+			}
+			if(rank == i && rank == 16){
+				func5(chaves,qtdpalavras,31,32,52,63,i);
+				func5(chaves,qtdpalavras,31+32,32+32,52,63,i);
+			}
+	*/
+			func6(chaves,qtdpalavras,rank-1,rank,0,12,i);
+			func6(chaves,qtdpalavras,rank-1+32,rank+32,0,12,i);
+			
+			func7(chaves,qtdpalavras,rank-1,rank,0,12,i);
+			func7(chaves,qtdpalavras,rank-1+32,rank+32,0,12,i);
+			
+			func8(chaves,qtdpalavras,rank-1,rank,0,12,i);
+			func8(chaves,qtdpalavras,rank-1+32,rank+32,0,12,i);
+			
+
 		}
 
-		/*for(i = 1;i<=160;i++){
+		if (rank == i && (i > 32) && (i <= 64) ) {
+			func4(chaves,qtdpalavras,(rank-33),(rank-32),13,25,i);
+			func4(chaves,qtdpalavras,(rank-33)+32,(rank-32)+32,13,25,i);
 
-			if (rank == i && i <= 64) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,0,32);
-				}
-			}
-
-			if (rank == i && (i > 64) && (i <= 128) ) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,32,62);
-				}
-			}
-
-			if (rank == i && (i > 128) && (i <= 160)) {
-				for(k = 0;k<63;k++){
-					func4(chaves,qtdpalavras,k,k+1,62,64);
-				}
-			}
-			k++;
-		}*/
+			func5(chaves,qtdpalavras,(rank-33),(rank-32),13,25,i);
+			func5(chaves,qtdpalavras,(rank-33)+32,(rank-32)+32,13,25,i);
+			
+			func6(chaves,qtdpalavras,(rank-33),(rank-32),13,25,i);
+			func6(chaves,qtdpalavras,(rank-33)+32,(rank-32)+32,13,25,i);
+			
+			func7(chaves,qtdpalavras,(rank-33),(rank-32),13,25,i);
+			func7(chaves,qtdpalavras,(rank-33)+32,(rank-32)+32,13,25,i);
 		
-
-		/*if(rank >= 1 && rank <= 3){
-			for(i=1;i<=3;i++){
-				func3(chaves,qtdpalavras,(i-1)*passos,i*passos);
-			}
-		}
-		
-		//escravo_inicial = escravo_final + 1;
-		//escravo_final = escravo_inicial + escravos_por_funcao;
-		
-		if(rank >= 4 && rank <= 6){
-			for(i=1;i<=3;i++){
-				func4(chaves,qtdpalavras,(i-1)*passos,i*passos);
-			}
-		}*/
-
-
-		/*
-
-				func4(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func5(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func6(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func7(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func8(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func9(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				func10(chaves,qtdpalavras,(i-1)*passos,i*passos);
-				*/
-		
+			func8(chaves,qtdpalavras,(rank-33),(rank-32),13,25,i);
+			func8(chaves,qtdpalavras,(rank-33)+32,(rank-32)+32,13,25,i);
 	
+
+		}
+		
+		if (rank == i && (i > 64) && (i <= 96) ) {
+			func4(chaves,qtdpalavras,(rank-65),(rank-64),26,38,i);
+			func4(chaves,qtdpalavras,(rank-65)+32,(rank-64)+32,26,38,i);
+
+			func5(chaves,qtdpalavras,(rank-65),(rank-64),26,38,i);
+			func5(chaves,qtdpalavras,(rank-65)+32,(rank-64)+32,26,38,i);
 			
+			func6(chaves,qtdpalavras,(rank-65),(rank-64),26,38,i);
+			func6(chaves,qtdpalavras,(rank-65)+32,(rank-64)+32,26,38,i);
 			
+			func7(chaves,qtdpalavras,(rank-65),(rank-64),26,38,i);
+			func7(chaves,qtdpalavras,(rank-65)+32,(rank-64)+32,26,38,i);
+			
+			func8(chaves,qtdpalavras,(rank-65),(rank-64),26,38,i);
+			func8(chaves,qtdpalavras,(rank-65)+32,(rank-64)+32,26,38,i);
+
+
+		}
+		
+		if (rank == i && (i > 96) && (i <= 128) ) {
+			func4(chaves,qtdpalavras,(rank-97),(rank-96),39,51,i);
+			func4(chaves,qtdpalavras,(rank-97)+32,(rank-96)+32,39,51,i);
+
+			func5(chaves,qtdpalavras,(rank-97),(rank-96),39,51,i);
+			func5(chaves,qtdpalavras,(rank-97)+32,(rank-96)+32,39,51,i);
+			
+			func6(chaves,qtdpalavras,(rank-97),(rank-96),39,51,i);
+			func6(chaves,qtdpalavras,(rank-97)+32,(rank-96)+32,39,51,i);
+			
+			func7(chaves,qtdpalavras,(rank-97),(rank-96),39,51,i);
+			func7(chaves,qtdpalavras,(rank-97)+32,(rank-96)+32,39,51,i);
+			
+			func8(chaves,qtdpalavras,(rank-97),(rank-96),39,51,i);
+			func8(chaves,qtdpalavras,(rank-97)+32,(rank-96)+32,39,51,i);
+
+		}
+		
+		if (rank == i && (i > 128) && (i <= 160) ) {
+			func4(chaves,qtdpalavras,(rank-129),(rank-128),52,63,i);
+			func4(chaves,qtdpalavras,(rank-129)+32,(rank-128)+32,52,63,i);
+
+
+			func5(chaves,qtdpalavras,(rank-129),(rank-128),52,63,i);
+			func5(chaves,qtdpalavras,(rank-129)+32,(rank-128)+32,52,63,i);
+			
+			func6(chaves,qtdpalavras,(rank-129),(rank-128),52,63,i);
+			func6(chaves,qtdpalavras,(rank-129)+32,(rank-128)+32,52,63,i);
+			
+			func7(chaves,qtdpalavras,(rank-129),(rank-128),52,63,i);
+			func7(chaves,qtdpalavras,(rank-129)+32,(rank-128)+32,52,63,i);
+			
+			func8(chaves,qtdpalavras,(rank-129),(rank-128),52,63,i);
+			func8(chaves,qtdpalavras,(rank-129)+32,(rank-128)+32,52,63,i);
+		}
+
 	}
-	//printf("TERMINOU 1 \n");
+
+
+			
+			
+			
+		
+	}
 	MPI_Finalize();
 	return 0;
 }

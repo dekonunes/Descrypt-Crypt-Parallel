@@ -7,4 +7,4 @@ do
 	scp aplicacao $node:~/
 done
 
-mpirun -np 54 -machinefile maquinas.txt /home/udesc/aplicacao < chaves.txt
+mpirun -np 160 -machinefile maquinas.txt /home/udesc/aplicacao < chaves.txt
